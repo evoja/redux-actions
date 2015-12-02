@@ -1,0 +1,1 @@
+# redux-actions [![npm version](https://badge.fury.io/js/%40evoja%2Fredux-actions.svg)](https://badge.fury.io/js/%40evoja%2Fredux-actions) [![Build Status](https://travis-ci.org/evoja/redux-actions.png)](https://travis-ci.org/evoja/redux-actions)
