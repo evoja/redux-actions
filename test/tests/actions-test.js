@@ -23,19 +23,28 @@ exports.test_getActionConstRegistrator = function(test) {
 }
 
 exports.test_createSimpleAction = function(test) {
-  var actionCreator = createSimpleAction('a', ['x', 'y'])
-  var actionObject = actionCreator(10, 20, 30)
-  test.deepEqual(actionObject, {type: 'a', payload: {x: 10, y: 20}})
+  var actionCreator = createSimpleAction('a', ['x', 'payload.x', 'payload.y'])
+  var actionObject = actionCreator(10, 20, 30, 40)
+  test.deepEqual(actionObject, {type: 'a', x: 10, payload: {x: 20, y: 30}})
   test.done()
 }
 
 exports.test_getSimpleActionsRegistrator = function(test) {
   var obj = {}
   var rg = getSimpleActionsRegistrator(obj)
-  rg({a: 'a', b: ['b', 'x', 'y']})
+  rg({a: 'a', b: ['b', 'x', 'y']}, 'payload')
   test.equal(typeof obj.a, 'function')
   test.equal(typeof obj.b, 'function')
-  test.deepEqual(obj.a(), {type: 'a', payload: {}})
+  test.deepEqual(obj.a(), {type: 'a'})
   test.deepEqual(obj.b(10, 20), {type: 'b', payload: {x: 10, y: 20}})
+
+  var obj1 = {}
+  var rg1 = getSimpleActionsRegistrator(obj1)
+  rg1({a: 'a', b: ['b', 'x', 'y']})
+  test.equal(typeof obj1.a, 'function')
+  test.equal(typeof obj1.b, 'function')
+  test.deepEqual(obj1.a(), {type: 'a'})
+  test.deepEqual(obj1.b(10, 20), {type: 'b', x: 10, y: 20})
+
   test.done()
 }

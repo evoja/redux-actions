@@ -12,6 +12,8 @@
 
 var me = module.exports;
 
+var {assign} = require('./utils.js')
+
 
 /**
  * Returns a `function (type) -> constName`
@@ -70,12 +72,9 @@ me.createSimpleAction = (type, argNames) => {
     if (args[0] == type) {
       console.error('Warning! Usually you should not pass actionType to arguments of a SimpleAction');
     }
-    var payload = {};
-    argNames.forEach((name, i) => {payload[name] = args[i]})
-    return {
-      type: type,
-      payload: payload
-    }
+    var action = {type};
+    argNames.forEach((name, i) => assign(name, args[i], action))
+    return action
   }
 }
 
@@ -92,15 +91,18 @@ me.createSimpleAction = (type, argNames) => {
  *    obj.draw = createSimpleAction('DRAW', ['x', 'y'])
  *    obj.line = createSimpleAction('LINE', ['x1', 'y1', 'x2', 'y2'])
  */
-me.getSimpleActionsRegistrator = (act) => (conf) => {
+me.getSimpleActionsRegistrator = (act) => (conf, prefix) => {
   for(var k in conf) {
     var confItem = conf[k]
     if (typeof confItem == 'string') {
-        act[k] = me.createSimpleAction(confItem)
+      act[k] = me.createSimpleAction(confItem)
     } else {
-        var type = confItem[0];
-        var argNames = confItem.slice(1);
-        act[k] = me.createSimpleAction(type, argNames)
+      var type = confItem[0]
+      var argNames = confItem.slice(1)
+      if (prefix) {
+        argNames = argNames.map(name => prefix + '.' + name)
+      }
+      act[k] = me.createSimpleAction(type, argNames)
     }
   }
 }
