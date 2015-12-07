@@ -23,20 +23,20 @@ exports.test_getActionConstRegistrator = function(test) {
 }
 
 exports.test_createSimpleAction = function(test) {
-  var actionCreator = createSimpleAction('a', ['x', 'payload.x', 'payload.y'])
+  var actionCreator = createSimpleAction('a', ['x', 'pay.load.x', 'pay.load.y'])
   var actionObject = actionCreator(10, 20, 30, 40)
-  test.deepEqual(actionObject, {type: 'a', x: 10, payload: {x: 20, y: 30}})
+  test.deepEqual(actionObject, {type: 'a', x: 10, pay: {load: {x: 20, y: 30}}})
   test.done()
 }
 
 exports.test_getSimpleActionsRegistrator = function(test) {
   var obj = {}
   var rg = getSimpleActionsRegistrator(obj)
-  rg({a: 'a', b: ['b', 'x', 'y']}, 'payload')
+  rg({a: 'a', b: ['b', 'x', 'y']}, 'pay.load')
   test.equal(typeof obj.a, 'function')
   test.equal(typeof obj.b, 'function')
   test.deepEqual(obj.a(), {type: 'a'})
-  test.deepEqual(obj.b(10, 20), {type: 'b', payload: {x: 10, y: 20}})
+  test.deepEqual(obj.b(10, 20), {type: 'b', pay: {load: {x: 10, y: 20}}})
 
   var obj1 = {}
   var rg1 = getSimpleActionsRegistrator(obj1)
