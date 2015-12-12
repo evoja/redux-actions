@@ -1,6 +1,6 @@
 {
   "name": "@evoja/redux-actions",
-  "version": "0.0.0",
+  "version": "0.0.1-s0",
   "license": "MIT",
   "repository": "git@github.com:evoja/redux-actions.git",
 
@@ -34,6 +34,14 @@
     "transform": [
       ["require-globify"]
     ]
+  },
+
+  "//dependencies": {
+    "@evoja/ns-plain": "Work with deep sub-objects"
+  },
+
+  "dependencies": {
+    "@evoja/ns-plain": "0.0.0-s0"
   },
 
   "//devDependencies": {

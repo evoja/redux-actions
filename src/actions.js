@@ -12,7 +12,7 @@
 
 var me = module.exports;
 
-var {assign} = require('./utils.js')
+var {assignInPlace} = require('@evoja/ns-plain')
 
 
 /**
@@ -73,7 +73,7 @@ me.createSimpleAction = (type, argNames) => {
       console.error('Warning! Usually you should not pass actionType to arguments of a SimpleAction');
     }
     var action = {type};
-    argNames.forEach((name, i) => assign(name, args[i], action))
+    argNames.forEach((name, i) => assignInPlace(name, args[i], action))
     return action
   }
 }
