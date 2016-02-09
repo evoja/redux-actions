@@ -1,6 +1,6 @@
 {
   "name": "@evoja/redux-actions",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Helper functions of registering action constants and simple action creators",
   "author": "chivorotkiv <chivorotkiv@omich.net>",
   "license": "MIT",
@@ -20,10 +20,10 @@
     "just-test": "nodeunit out/tests",
 
     "prebrowserify": "npm run build",
-    "browserify": "browserify \"lib/for-browser.js\" > out/redux-actions.js",
+    "browserify": "browserify -t require-globify \"lib/for-browser.js\" > out/redux-actions.js",
 
     "prebuild-browser-test": "npm run build-tests && mkdir -p out/test",
-    "build-browser-test": "browserify -d \"out/test-browser.js\" > out/test/index.js",
+    "build-browser-test": "browserify -d -t require-globify \"out/test-browser.js\" > out/test/index.js",
     "postbuild-browser-test": "copyfiles -u 1 test/index.html out/test"
   },
 
@@ -32,18 +32,12 @@
     "plugins": ["transform-object-rest-spread"]
   },
 
-  "browserify": {
-    "transform": [
-      ["require-globify"]
-    ]
-  },
-
   "//dependencies": {
     "@evoja/ns-plain": "Work with deep sub-objects"
   },
 
   "dependencies": {
-    "@evoja/ns-plain": "0.0.0"
+    "@evoja/ns-plain": "0.0.1"
   },
 
   "//devDependencies": {
