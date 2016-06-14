@@ -2,7 +2,7 @@
 
 var tl = require('../test-lib.js')
 var {getActionNameSubtractor, getActionConstRegistrator, createSimpleAction,
-    getSimpleActionsRegistrator
+    getSimpleActionsRegistrator, registerSimpleActions
   } = tl.require('actions.js')
 
 exports.test_getActionNameSubtractor = function(test) {
@@ -45,6 +45,39 @@ exports.test_getSimpleActionsRegistrator = function(test) {
   test.equal(typeof obj1.b, 'function')
   test.deepEqual(obj1.a(), {type: 'a'})
   test.deepEqual(obj1.b(10, 20), {type: 'b', x: 10, y: 20})
+
+  test.done()
+}
+
+
+exports.test_registerSimpleActions = function(test) {
+  var rg = registerSimpleActions({}, '', 'pay.load')
+  const obj = rg({a: 'a', b: ['b', 'x', 'y']})
+  test.equal(typeof obj.a, 'function')
+  test.equal(typeof obj.b, 'function')
+  test.deepEqual(obj.a(), {type: 'a'})
+  test.deepEqual(obj.b(10, 20), {type: 'b', pay: {load: {x: 10, y: 20}}})
+
+  var rg1 = registerSimpleActions({}, '')
+  const obj1 = rg1({a: 'a', b: ['b', 'x', 'y']})
+  test.equal(typeof obj1.a, 'function')
+  test.equal(typeof obj1.b, 'function')
+  test.deepEqual(obj1.a(), {type: 'a'})
+  test.deepEqual(obj1.b(10, 20), {type: 'b', x: 10, y: 20})
+
+  var rg = registerSimpleActions({}, 'p_', 'pay.load')
+  const obj2 = rg({a: 'a', b: ['b', 'x', 'y']})
+  test.equal(typeof obj2.a, 'function')
+  test.equal(typeof obj2.b, 'function')
+  test.deepEqual(obj2.a(), {type: 'p_a'})
+  test.deepEqual(obj2.b(10, 20), {type: 'p_b', pay: {load: {x: 10, y: 20}}})
+
+  var rg1 = registerSimpleActions({}, 'p_')
+  const obj3 = rg1({a: 'a', b: ['b', 'x', 'y']})
+  test.equal(typeof obj3.a, 'function')
+  test.equal(typeof obj3.b, 'function')
+  test.deepEqual(obj3.a(), {type: 'p_a'})
+  test.deepEqual(obj3.b(10, 20), {type: 'p_b', x: 10, y: 20})
 
   test.done()
 }

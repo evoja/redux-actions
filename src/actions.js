@@ -45,6 +45,8 @@ me.getActionConstRegistrator = (prefix, act) =>
   }
 
 /**
+ * #Deprecated
+ *
  * Creates simple action
  *    * type - type
  *    * argNames - array of argument names which will be collected to action.payload object.
@@ -79,6 +81,8 @@ me.createSimpleAction = (type, argNames) => {
 }
 
 /**
+ * #Deprecated
+ *
  * Bulk registrator of simple actions
  *
  * This call:
@@ -106,3 +110,21 @@ me.getSimpleActionsRegistrator = (act) => (conf, prefix) => {
     }
   }
 }
+
+me.registerSimpleActions = (act, actionPref, creatorPref) => (conf) => {
+  for (let k in conf) {
+    const confItem = conf[k]
+    if (typeof confItem == 'string') {
+      act[k] = me.createSimpleAction(actionPref + confItem)
+    } else {
+      const type = actionPref + confItem[0]
+      var argNames = confItem.slice(1)
+      if (creatorPref) {
+        argNames = argNames.map(name => creatorPref + '.' + name)
+      }
+      act[k] = me.createSimpleAction(type, argNames)
+    }
+  }
+  return act
+}
+
