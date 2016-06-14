@@ -96,21 +96,21 @@ me.createSimpleAction = (type, argNames) => {
  *    obj.line = createSimpleAction('LINE', ['x1', 'y1', 'x2', 'y2'])
  */
 me.getSimpleActionsRegistrator = (act) => (conf, prefix) => {
-  for(var k in conf) {
-    var confItem = conf[k]
-    if (typeof confItem == 'string') {
-      act[k] = me.createSimpleAction(confItem)
-    } else {
-      var type = confItem[0]
-      var argNames = confItem.slice(1)
-      if (prefix) {
-        argNames = argNames.map(name => prefix + '.' + name)
-      }
-      act[k] = me.createSimpleAction(type, argNames)
-    }
-  }
+  return me.registerSimpleActions(act, '', prefix)(conf);
 }
 
+/**
+ * Bulk registrator of simple actions and action constants
+ *
+ * This call:
+ *     var obj = registerSimpleActions({}, '')({
+ *         draw: ['DRAW', 'x', 'y'],
+ *         line: ['LINE', 'x1', 'y1', 'x2', 'y2']
+ *     });
+ * is equivalent to:
+ *    obj.draw = createSimpleAction('DRAW', ['x', 'y'])
+ *    obj.line = createSimpleAction('LINE', ['x1', 'y1', 'x2', 'y2'])
+ */
 me.registerSimpleActions = (act, actionPref, creatorPref) => (conf) => {
   for (let k in conf) {
     const confItem = conf[k]
