@@ -12,6 +12,13 @@ registerSimpleActions(obj, 'PREFIX_')({
   creator2: ['TYPE2', 'param1', 'p.ar.am2']
 })
 
+// => {
+//      TYPE1: 'PREFIX_TYPE1',
+//      TYPE2: 'PREFIX_TYPE2',
+//      creator1: function(){},
+//      creator2: function(param1, param2),
+//    }
+
 var action1 = obj.creator1()
 // => {type: 'PREFIX_TYPE1'}
 

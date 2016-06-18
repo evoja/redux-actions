@@ -112,12 +112,15 @@ me.getSimpleActionsRegistrator = (act) => (conf, prefix) => {
  *    obj.line = createSimpleAction('LINE', ['x1', 'y1', 'x2', 'y2'])
  */
 me.registerSimpleActions = (act, actionPref, creatorPref) => (conf) => {
+  actionPref = actionPref || ''
   for (let k in conf) {
     const confItem = conf[k]
     if (typeof confItem == 'string') {
+      act[confItem] = actionPref + confItem
       act[k] = me.createSimpleAction(actionPref + confItem)
     } else {
       const type = actionPref + confItem[0]
+      act[confItem[0]] = type
       var argNames = confItem.slice(1)
       if (creatorPref) {
         argNames = argNames.map(name => creatorPref + '.' + name)
