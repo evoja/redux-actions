@@ -1,6 +1,6 @@
 {
   "name": "@evoja/redux-actions",
-  "version": "0.0.3-s",
+  "version": "0.0.3",
   "description": "Helper functions of registering action constants and simple action creators",
   "author": "chivorotkiv <chivorotkiv@omich.net>",
   "license": "MIT",
